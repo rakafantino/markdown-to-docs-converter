@@ -41,23 +41,26 @@ Aplikasi ini mendukung berbagai elemen Markdown:
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm atau yarn
 
 ### Langkah Instalasi
 
 1. **Clone repository**
+
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/rakafantino/markdown-to-docs-converter.git
    cd markdown-to-docs-converter
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Jalankan development server**
+
    ```bash
    npm run dev
    ```
@@ -68,20 +71,24 @@ Aplikasi ini mendukung berbagai elemen Markdown:
 ## 🎯 Cara Penggunaan
 
 ### 1. Input Markdown
+
 - Ketik atau paste konten Markdown di textarea sebelah kiri
 - Preview akan muncul secara real-time di sebelah kanan
 
 ### 2. Pilih Format Preview
+
 - **Live Preview**: Tampilan default dengan styling web
 - **PDF Style**: Preview bagaimana dokumen akan terlihat dalam format PDF
 - **DOCX Style**: Preview bagaimana dokumen akan terlihat dalam format Word
 
 ### 3. Konversi Dokumen
+
 - Masukkan nama file yang diinginkan
 - Klik tombol "Convert to PDF" atau "Convert to DOCX"
 - File akan otomatis terdownload
 
 ### 4. Dark Mode
+
 - Klik toggle di pojok kanan atas untuk beralih antara tema terang dan gelap
 - Semua preview mode mendukung dark mode dengan kontras yang optimal
 
@@ -136,7 +143,7 @@ if (previewFormat === "pdf") {
   </style><div class="pdf-preview">${processedContent}</div>`;
 }
 
-// DOCX Preview Styling  
+// DOCX Preview Styling
 if (previewFormat === "docx") {
   return `<style>
     .docx-preview { /* Custom DOCX styles */ }
@@ -153,6 +160,7 @@ Untuk menambah tema baru, edit file `tailwind.config.js` dan tambahkan warna cus
 ### Build Warnings
 
 Jika Anda melihat warning tentang multiple lockfiles:
+
 ```
 ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
 ```
