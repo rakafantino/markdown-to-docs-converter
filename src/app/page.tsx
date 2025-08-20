@@ -77,25 +77,31 @@ function hello() {
     } else if (previewFormat === "docx") {
       // Apply DOCX-specific styling inline with dark mode support
       return `<style>
-        .docx-preview { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; }
-        .docx-preview h1 { font-size: 22pt; font-weight: normal; margin-bottom: 12pt; margin-top: 0; }
-        .docx-preview h2 { font-size: 18pt; font-weight: normal; margin-bottom: 12pt; margin-top: 24pt; }
-        .docx-preview h3 { font-size: 16pt; font-weight: normal; margin-bottom: 12pt; margin-top: 18pt; }
-        .docx-preview p { margin-bottom: 10pt; margin-top: 10pt; }
-        .docx-preview ul, .docx-preview ol { margin: 15pt 0; padding-left: 25pt; }
-        .docx-preview li { margin: 5pt 0; line-height: 1.6; }
-        .docx-preview blockquote { margin: 15pt 0; padding: 10pt 20pt; border-left: 4px solid #e2e8f0; background-color: #f8fafc; font-style: italic; }
-        .docx-preview code { font-family: 'Consolas', 'Monaco', 'Courier New', monospace; background-color: #f1f5f9; padding: 3pt 6pt; border-radius: 4px; font-size: 10pt; color: #1e293b; font-weight: 600; }
-        .docx-preview pre { background-color: #f8fafc; padding: 15pt; border-radius: 6px; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; white-space: pre-wrap; line-height: 1.5; margin: 15pt 0; border: 1px solid #e2e8f0; font-size: 11pt; overflow-x: auto; }
-        .docx-preview pre code { background-color: transparent; padding: 0; font-size: 11pt; white-space: pre-wrap; display: block; font-family: inherit; color: #475569; line-height: inherit; }
+        .docx-preview { font-family: 'Calibri', 'Arial', sans-serif; font-size: 11pt; line-height: 1.5; color: #2d3748; }
+        .docx-preview h1 { font-size: 20pt; font-weight: 600; margin-bottom: 12pt; margin-top: 0; color: #1a202c; }
+        .docx-preview h2 { font-size: 16pt; font-weight: 600; margin-bottom: 10pt; margin-top: 18pt; color: #1a202c; }
+        .docx-preview h3 { font-size: 14pt; font-weight: 600; margin-bottom: 8pt; margin-top: 14pt; color: #1a202c; }
+        .docx-preview h4 { font-size: 12pt; font-weight: 600; margin-bottom: 6pt; margin-top: 12pt; color: #1a202c; }
+        .docx-preview p { margin-bottom: 8pt; margin-top: 0pt; text-align: justify; }
+        .docx-preview ul, .docx-preview ol { margin: 12pt 0; padding-left: 20pt; }
+        .docx-preview li { margin: 4pt 0; line-height: 1.5; }
+        .docx-preview blockquote { margin: 12pt 0; padding: 8pt 12pt; border-left: 3pt solid #cbd5e0; background-color: #f7fafc; font-style: italic; color: #4a5568; }
+        .docx-preview code { font-family: 'Consolas', 'Courier New', monospace; background-color: #edf2f7; padding: 2pt 4pt; font-size: 9pt; color: #2d3748; font-weight: 600; }
+        .docx-preview pre { background-color: #f7fafc; padding: 12pt; font-family: 'Consolas', 'Courier New', monospace; white-space: pre-wrap; line-height: 1.4; margin: 12pt 0; border: 1pt solid #e2e8f0; font-size: 10pt; overflow-x: auto; }
+        .docx-preview pre code { background-color: transparent; padding: 0; font-size: 10pt; white-space: pre-wrap; display: block; font-family: inherit; color: #2d3748; line-height: inherit; }
+        .docx-preview strong { font-weight: 700; color: #1a202c; }
+        .docx-preview em { font-style: italic; color: #4a5568; }
         
         /* Dark mode styles */
         @media (prefers-color-scheme: dark) {
           .docx-preview { color: #e2e8f0; }
-          .docx-preview blockquote { border-left-color: #475569; background-color: #1e293b; }
-          .docx-preview code { background-color: #334155; color: #e2e8f0; }
-          .docx-preview pre { background-color: #1e293b; border-color: #475569; }
-          .docx-preview pre code { color: #cbd5e1; }
+          .docx-preview h1, .docx-preview h2, .docx-preview h3, .docx-preview h4 { color: #f7fafc; }
+          .docx-preview blockquote { border-left-color: #4a5568; background-color: #2d3748; color: #cbd5e0; }
+          .docx-preview code { background-color: #4a5568; color: #e2e8f0; }
+          .docx-preview pre { background-color: #2d3748; border-color: #4a5568; }
+          .docx-preview pre code { color: #e2e8f0; }
+          .docx-preview strong { color: #f7fafc; }
+          .docx-preview em { color: #cbd5e0; }
         }
       </style><div class="docx-preview">${processedContent}</div>`;
     }
@@ -299,7 +305,12 @@ function hello() {
               <CardDescription>Write or paste your markdown content below</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Textarea placeholder="Enter your markdown here..." value={markdown} onChange={(e) => setMarkdown(e.target.value)} className="min-h-[300px] sm:min-h-[400px] font-mono text-sm" />
+              <Textarea
+                placeholder="Enter your markdown here..."
+                value={markdown}
+                onChange={(e) => setMarkdown(e.target.value)}
+                className="min-h-[300px] sm:min-h-[510px] max-h-[300px] sm:max-h-[510px] font-mono text-sm resize-none overflow-y-auto"
+              />
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Filename</label>
