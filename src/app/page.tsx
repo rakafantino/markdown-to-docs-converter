@@ -39,7 +39,7 @@ function hello() {
   const [isConverting, setIsConverting] = useState(false);
   const [convertingType, setConvertingType] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
-  const [previewFormat, setPreviewFormat] = useState<"live" | "pdf" | "docx">("live");
+  const [previewFormat, setPreviewFormat] = useState<"pdf" | "docx">("pdf");
 
   const getPreviewContent = () => {
     if (!markdown) {
@@ -47,10 +47,6 @@ function hello() {
     }
 
     const processedContent = remark().use(html).processSync(markdown).toString();
-
-    if (previewFormat === "live") {
-      return processedContent;
-    }
 
     if (previewFormat === "pdf") {
       // Apply PDF-specific styling inline with dark mode support
@@ -78,9 +74,7 @@ function hello() {
           .pdf-preview pre code { color: #cbd5e1; }
         }
       </style><div class="pdf-preview">${processedContent}</div>`;
-    }
-
-    if (previewFormat === "docx") {
+    } else if (previewFormat === "docx") {
       // Apply DOCX-specific styling inline with dark mode support
       return `<style>
         .docx-preview { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.5; }
@@ -279,20 +273,22 @@ function hello() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 gap-4">
           <div className="text-center flex-1">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <FileText className="h-8 w-8 text-slate-600 dark:text-slate-400" />
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">Markdown Converter</h1>
+            <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
+              <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-slate-600 dark:text-slate-400" />
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">Markdown Converter</h1>
             </div>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Transform your markdown content into professional PDF and DOCX documents with ease</p>
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-4 sm:px-0">Transform your markdown content into professional PDF and DOCX documents with ease</p>
           </div>
-          <ThemeToggle />
+          <div className="sm:ml-4">
+            <ThemeToggle />
+          </div>
         </div>
 
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* Input Section */}
           <Card className="h-fit">
             <CardHeader>
@@ -303,7 +299,7 @@ function hello() {
               <CardDescription>Write or paste your markdown content below</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Textarea placeholder="Enter your markdown here..." value={markdown} onChange={(e) => setMarkdown(e.target.value)} className="min-h-[400px] font-mono text-sm" />
+              <Textarea placeholder="Enter your markdown here..." value={markdown} onChange={(e) => setMarkdown(e.target.value)} className="min-h-[300px] sm:min-h-[400px] font-mono text-sm" />
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Filename</label>
@@ -312,7 +308,7 @@ function hello() {
                     type="text"
                     value={filename}
                     onChange={(e) => setFilename(e.target.value)}
-                    className="flex-1 px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 dark:border-slate-600 dark:bg-slate-800"
+                    className="flex-1 px-3 py-2 sm:py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 dark:border-slate-600 dark:bg-slate-800 text-sm sm:text-base"
                     placeholder="document"
                   />
                   <Badge variant="secondary" className="px-3 py-2">
@@ -349,13 +345,13 @@ function hello() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Button onClick={handleConvertToPdf} disabled={isConverting || !markdown.trim()} className="h-12 flex items-center gap-2" variant="default">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <Button onClick={handleConvertToPdf} disabled={isConverting || !markdown.trim()} className="h-11 sm:h-12 flex items-center gap-2 text-sm sm:text-base" variant="default">
                     {isConverting && convertingType === "PDF" ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}
                     Export as PDF
                   </Button>
 
-                  <Button onClick={handleConvertToDocx} disabled={isConverting || !markdown.trim()} className="h-12 flex items-center gap-2" variant="outline">
+                  <Button onClick={handleConvertToDocx} disabled={isConverting || !markdown.trim()} className="h-11 sm:h-12 flex items-center gap-2 text-sm sm:text-base" variant="outline">
                     {isConverting && convertingType === "DOCX" ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}
                     Export as DOCX
                   </Button>
@@ -366,31 +362,37 @@ function hello() {
             {/* Preview Section */}
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>Preview</CardTitle>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <CardTitle className="mb-1">Preview</CardTitle>
                     <CardDescription>See how your markdown will look when converted</CardDescription>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="flex items-center gap-2">
-                        {previewFormat === "live" && "Live Preview"}
-                        {previewFormat === "pdf" && "PDF Style"}
-                        {previewFormat === "docx" && "DOCX Style"}
-                        <ChevronDown className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setPreviewFormat("live")}>Live Preview</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setPreviewFormat("pdf")}>PDF Style</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setPreviewFormat("docx")}>DOCX Style</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="flex-shrink-0 mt-1">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="flex items-center gap-1 sm:gap-2 h-9 sm:h-10 px-2 sm:px-3 text-xs sm:text-sm w-full sm:w-auto max-w-[120px] sm:max-w-none">
+                          <span className="truncate">
+                            {previewFormat === "pdf" && "PDF Style"}
+                            {previewFormat === "docx" && "DOCX Style"}
+                          </span>
+                          <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-28 sm:w-32">
+                        <DropdownMenuItem onClick={() => setPreviewFormat("pdf")} className="py-2 px-2 text-xs sm:text-sm">
+                          PDF Style
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setPreviewFormat("docx")} className="py-2 px-2 text-xs sm:text-sm">
+                          DOCX Style
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <div
-                  className={`max-w-none p-4 border rounded-lg max-h-[400px] overflow-y-auto ${previewFormat === "live" ? "prose prose-slate dark:prose-invert bg-white dark:bg-slate-900" : "bg-white dark:bg-slate-900"}`}
+                  className="max-w-none p-3 sm:p-4 border rounded-lg max-h-[300px] sm:max-h-[400px] overflow-y-auto text-sm sm:text-base bg-white dark:bg-slate-900"
                   dangerouslySetInnerHTML={{
                     __html: getPreviewContent(),
                   }}
